@@ -1,0 +1,35 @@
+### GET
+GET http://localhost:3000/customers
+
+### POST
+# @name createCustomer
+POST http://localhost:3000/customers
+Content-Type: application/json
+
+{
+  "id": 3,
+  "name": "Marta Gomez",
+  "email": "martagomez@gmail.com",
+  "phone": "34154983789",
+  "address": "Cordoba 1500"
+}
+
+### ID
+@id = {{createCustomer.response.body.id}}
+
+### GET ONE
+GET http://localhost:3000/customers/1
+
+
+### PUT
+PUT http://localhost:3000/customers/{{id}}
+Content-Type: application/json
+
+{
+  "name": "Marta Gomez MODIFIED",
+  "email": "martagomez@gmail.com MODIFIED",
+  "address": "Cordoba 1500 MODIFIED"
+}
+
+### DELETE
+DELETE http://localhost:3000/customers/{{id}}
