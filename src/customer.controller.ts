@@ -24,7 +24,7 @@ export const customerController = (fastify: FastifyInstance, options: any, done:
 
   fastify.get('/', { schema: customerSchemas.getAllCustomerSchema }, async (request: FastifyRequest, reply: FastifyReply): Promise<void> => {
     try {
-      return reply.status(200).send("Customers found: " + myCustomers) 
+      return reply.status(200).send(myCustomers) 
     } catch (error) {
       return reply.status(500).send(error)
     }
@@ -34,7 +34,7 @@ export const customerController = (fastify: FastifyInstance, options: any, done:
   try {
     const newCustomer = request.body;
     myCustomers.push(newCustomer);
-    return reply.status(200).send("Customers added: " + JSON.stringify(newCustomer));
+    return reply.status(200).send(newCustomer);
   } catch (error) {
     return reply.status(500).send(error);
   }
@@ -45,21 +45,22 @@ export const customerController = (fastify: FastifyInstance, options: any, done:
       console.log(request.params)
       const id = request.params.id;
       const myCustomer = myCustomers.find(customer => customer.id === id);
-      return reply.status(200).send("Customer found: " + JSON.stringify(myCustomer)) 
+      return reply.status(200).send(myCustomer) 
     } catch (error) {
       return reply.status(500).send(error)
     }
   })
 
-  fastify.put('/:id', { schema: customerSchemas.putCustomerSchema },(request: FastifyRequest<{ Params: { id: number } }>, reply: FastifyReply) => {
+  fastify.put('/:id', { schema: customerSchemas.putCustomerSchema }, (request: FastifyRequest<{ Params: { id: number }, Body: Partial<Customer> }>, reply: FastifyReply) => {
     try {
       const id = request.params.id;
+      const updateData = request.body;
       const myCustomerIdx = myCustomers.findIndex((customer) => customer.id === id);
       if (myCustomerIdx === -1) {
         return reply.status(404).send('Customer not found');
       }
-      myCustomers[myCustomerIdx] = { ...myCustomers[myCustomerIdx], ...request.body as object };
-      return reply.status(200).send('Customer updated: ' + JSON.stringify(myCustomers[myCustomerIdx]))
+      myCustomers[myCustomerIdx] = { ...myCustomers[myCustomerIdx], ...updateData };
+      return reply.status(200).send(myCustomers[myCustomerIdx]);
     } catch (error) {
       return reply.status(500).send(error)
     }
@@ -74,7 +75,7 @@ export const customerController = (fastify: FastifyInstance, options: any, done:
         return reply.status(404).send('Customer not found');
       }
       myCustomers.splice(myCustomerIdx, 1);
-      return reply.status(200).send('Customer deleted: ' + JSON.stringify(myCustomer))
+      return reply.status(200).send(myCustomer)
     } catch (error) {
       return reply.status(500).send(error)
     }

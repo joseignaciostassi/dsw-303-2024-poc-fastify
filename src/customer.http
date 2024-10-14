@@ -18,7 +18,7 @@ Content-Type: application/json
 @id = {{createCustomer.response.body.id}}
 
 ### GET ONE
-GET http://localhost:3000/customers/1
+GET http://localhost:3000/customers/{{id}}
 
 
 ### PUT
@@ -27,7 +27,7 @@ Content-Type: application/json
 
 {
   "name": "Marta Gomez MODIFIED",
-  "email": "martagomez@gmail.com MODIFIED",
+  "email": "martagomezMODIFIED@gmail.com",
   "address": "Cordoba 1500 MODIFIED"
 }
 

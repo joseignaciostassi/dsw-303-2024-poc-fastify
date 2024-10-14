@@ -18,8 +18,8 @@ const getAllCustomerSchema = {
   response: {
     200: {
       type: 'array',
-      items: customerSchema.properties
-        }
+      items: customerSchema
+      }
     }
 }
 
@@ -37,15 +37,9 @@ const getOneCustomerSchema = {
 };
 
 const postCustomerSchema = {
-  body:  {
-    type: 'object',
-    properties: customerSchema.properties
-  },
+  body:  customerSchema,
   response: {
-    200: {
-      type: 'array',
-      items: customerSchema
-  },
+    200: customerSchema
   }
 };
 
@@ -60,12 +54,12 @@ const putCustomerSchema = {
   body: {
     type: 'object',
     properties: {
-      id: { type: 'number' },
       name: { type: 'string' },
       email: { type: 'string', format: 'email' },
       phone: { type: 'string' },
       address: { type: 'string' }
     },
+    // All properties are optional for PUT
   },
   response: {
     200: customerSchema
